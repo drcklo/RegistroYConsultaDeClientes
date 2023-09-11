@@ -42,7 +42,7 @@
 @code {
     private List<Cliente> clientes = new List<Cliente>();
 
-    private void EliminarCliente(int clienteId)
+    private void EliminarCliente(int? clienteId)
     {
         var clienteAEliminar = clientes.FirstOrDefault(c => c.ClienteId == clienteId);
 
