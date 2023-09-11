@@ -1,0 +1,54 @@
+﻿@page "/buscarconsulta"
+@using RegistroYConsultaDeClientes.Model;
+<h3>Buscar Consulta</h3>
+
+<div class="form-group">
+    <label for="ClienteId">Buscar por ID:</label>
+    <input type="text" class="form-control" id="ClienteId">
+    <button id="buscarBtn" class="btn btn-success mt-2">Buscar</button>
+</div>
+
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>ID de Cliente</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Celular</th>
+            <th>RNC</th>
+            <th>Gmail</th>
+            <th>Dirección</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cliente in clientes)
+        {
+            <tr>
+                <td>@cliente.ClienteId</td>
+                <td>@cliente.Nombres</td>
+                <td>@cliente.Telefono</td>
+                <td>@cliente.Celular</td>
+                <td>@cliente.RNC</td>
+                <td>@cliente.Email</td>
+                <td>@cliente.Direccion</td>
+                <td>
+                    <button @onclick="() => EliminarCliente(cliente.ClienteId)" class="btn btn-danger btn-sm">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    private List<Cliente> clientes = new List<Cliente>();
+
+    private void EliminarCliente(int clienteId)
+    {
+        var clienteAEliminar = clientes.FirstOrDefault(c => c.ClienteId == clienteId);
+
+        if (clienteAEliminar != null)
+        {
+            clientes.Remove(clienteAEliminar);
+        }
+    }
+}
