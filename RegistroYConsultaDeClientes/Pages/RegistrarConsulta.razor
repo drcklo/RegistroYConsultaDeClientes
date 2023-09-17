@@ -1,4 +1,5 @@
 ﻿@page "/registrarconsulta"
+
 @using RegistroYConsultaDeClientes.BLL;
 @using RegistroYConsultaDeClientes.Model;
 
@@ -56,10 +57,11 @@
 
 <button class="btn btn-success" >Registrar</button>
 @code {
+
     [Parameter]
     public int ClienteId { get; set; }
 
-    public Cliente cliente { get; set; } = new Cliente();
+    public Clientes cliente { get; set; } = new Clientes();
 
     protected override void OnInitialized()
     {
@@ -72,21 +74,49 @@
 
     void Buscar()
     {
+        var clienteEncontrado = clientesBLL.Buscar(cliente.ClienteId);
+
+        if (clienteEncontrado != null)
+            this.cliente = clienteEncontrado;
 
     }
 
     void Nuevo()
     {
-
+        this.cliente = new Clientes();
     }
 
     void Guardar()
     {
+        if (!Validar())
+            return;
+        if (clientesBLL.Guardar(this.cliente))
+            this.Nuevo();
+    }
 
+    bool Validar()
+    {
+        if (string.IsNullOrWhiteSpace(cliente.Nombres)  || 
+            string.IsNullOrWhiteSpace(cliente.Telefono) || 
+            string.IsNullOrWhiteSpace(cliente.Celular)  ||
+            string.IsNullOrWhiteSpace(cliente.RNC)      ||
+            string.IsNullOrWhiteSpace(cliente.Email)    ||
+            string.IsNullOrWhiteSpace(cliente.Direccion))
+            return false;
+        return true;
     }
 
     void Eliminar()
     {
-        
+        if (cliente.ClienteId > 0)
+            if (clientesBLL.Eliminar(cliente.ClienteId))
+                this.Nuevo();
+            else
+            {
+                
+            } 
+
     }
+   
+    
 }
