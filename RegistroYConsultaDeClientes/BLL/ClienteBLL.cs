@@ -20,19 +20,19 @@ namespace RegistroYConsultaDeClientes.BLL
                 .Any(e => e.ClienteId == clientesId);
         }
 
-        private bool Insertar(Cliente cliente)
+        private bool Insertar(Clientes cliente)
         {
             _contexto.Clientes.Add(cliente);
             return _contexto.SaveChanges() > 0;
         }
 
-        private bool Modificar(Cliente cliente)
+        private bool Modificar(Clientes cliente)
         {
             _contexto.Entry(cliente).State = EntityState.Modified;
             return _contexto.SaveChanges() > 0;
         }
 
-        public bool Guardar(Cliente cliente)
+        public bool Guardar(Clientes cliente)
         {
             if (!Existe(cliente.ClienteId))
                 return Insertar(cliente);
@@ -46,7 +46,7 @@ namespace RegistroYConsultaDeClientes.BLL
             return _contexto.SaveChanges() > 0;
         }
 
-        public Cliente? Buscar(int? clientesId)
+        public Clientes? Buscar(int? clientesId)
         {
             return _contexto.Clientes
                 .Where(o => o.ClienteId == clientesId)
@@ -54,7 +54,7 @@ namespace RegistroYConsultaDeClientes.BLL
                 .SingleOrDefault();
         }
 
-        public List<Cliente> GetList(Expression<Func<Cliente, bool>> criterio)
+        public List<Clientes> GetList(Expression<Func<Clientes, bool>> criterio)
         {
             return _contexto.Clientes
                 .AsNoTracking()
